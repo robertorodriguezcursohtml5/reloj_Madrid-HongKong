@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj de Madrid y Hong Kong</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Ink Free", sans-serif;
+            background-color: white;
+        }
+
+        .clock-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 18pt; 
+            margin-bottom: 18px;  
+        }
+
+        .location {
+            font-size: 10pt;  
+            display: block;  
+        }
+
+        .date {
+            font-size: 10pt;  
+            margin-top: 5px;  
+        }
+
+        .year {
+            font-size: 10pt;  
+        }
+
+        .clock {
+            font-size: 26pt;  
+        }
+
+         
+        #hours, #minutes, #seconds, #hours-hk, #minutes-hk, #seconds-hk {
+            width: 50px;  
+            display: inline-block;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="clock-widget">
+        <div class="clock-container">
+    <div class="clock-container">
+        <h3>Hora actual en:</h3>
+        <span class="location">Madrid, España</span>
+        <div class="date" id="date">
+            Saturday, August <span class="year">05, 2023</span>
+        </div>
+        <div class="clock" id="clock">
+            <span id="hours">00</span>:
+            <span id="minutes">00</span>:
+            <span id="seconds">00</span>
+        </div>
+        
+        <h3></h3>
+        <span class="location">Hong Kong</span>
+        <div class="date" id="date-hk">
+            Saturday, August <span class="year">05, 2023</span>
+        </div>
+        <div class="clock" id="clock-hk">
+            <span id="hours-hk">00</span>:
+            <span id="minutes-hk">00</span>:
+            <span id="seconds-hk">00</span>
+        </div>
+    </div>
+    <script>
+                function updateClockMadrid() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+            const seconds = String(now.getSeconds()).padStart(2, "0");
+
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dayOfWeek = daysOfWeek[now.getDay()];
+            const month = months[now.getMonth()];
+            const date = now.getDate();
+            const year = now.getFullYear();
+
+            document.getElementById("date").textContent = `${dayOfWeek}, ${month} ${date}, ${year}`;
+        }
+
+        function updateClockHongKong() {
+            const now = new Date();
+
+            // Ajuste de la diferencia horaria entre Madrid (GMT+2) y Hong Kong (GMT+8)
+            const hongKongTime = now.getTime() + (6 * 60 * 60 * 1000);
+            const hongKongNow = new Date(hongKongTime);
+
+            const hours = String(hongKongNow.getHours()).padStart(2, "0");
+            const minutes = String(hongKongNow.getMinutes()).padStart(2, "0");
+            const seconds = String(hongKongNow.getSeconds()).padStart(2, "0");
+
+            document.getElementById("hours-hk").textContent = hours;
+            document.getElementById("minutes-hk").textContent = minutes;
+            document.getElementById("seconds-hk").textContent = seconds;
+
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dayOfWeek = daysOfWeek[hongKongNow.getDay()];
+            const month = months[hongKongNow.getMonth()];
+            const date = hongKongNow.getDate();
+            const year = hongKongNow.getFullYear();
+
+            document.getElementById("date-hk").textContent = `${dayOfWeek}, ${month} ${date}, ${year}`;
+        }
+
+        updateClockMadrid();
+        updateClockHongKong();
+
+        setInterval(updateClockMadrid, 1000);
+        setInterval(updateClockHongKong, 1000);
+
+    </script>
+</body>
+</html>
